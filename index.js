@@ -54,12 +54,12 @@ app.post("/api", (req, res) => {
 
 app.post("/api/create_user", (req, res) => {
   let date = new Date(Date.now()).toLocaleString();
-  console.log(date + ": Got a POST request on create_user from " + req.hostname + " with body:");
+  console.log(date + ": Got a POST request on /api/create_user from " + req.hostname + " with body:");
   console.log(req.body);
   usersDB.find({UserName: req.body.UserName},(DBerror, docs)=>{
     var error = 0;
-    if (req.body.UserName == null || req.body.Secret == null) error = 1;
-    if(docs.length>0) error = 2;
+    if (req.body.UserName == null || req.body.Secret == null) error = "missing_field";
+    if(docs.length>0) error = "user_unavailable";
     if (!error) {
       const doc = {
         UserName: req.body.UserName,
@@ -70,7 +70,16 @@ app.post("/api/create_user", (req, res) => {
         status: "success"
       });
     } else {
-      res.json({status: "Error: Missing UserName or Secret", code : error});
+      res.json({status: "failed", message: errorMsg(error), error_code : error});
     }
   });
 });
+
+function errorMsg(errorCode){
+  switch (errorCode){
+    case "missing_field":
+      return "ERROR: Missing UserName or Secret";
+    case "user_unavailable":
+      return "ERROR: UserName is already in use. Please select other UserName";
+  }
+}
