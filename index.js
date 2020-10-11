@@ -3,6 +3,7 @@ console.log("WattApp v0.0.1");
 const express = require("express");
 const Datastore = require("nedb");
 const jwt = require("jsonwebtoken");
+const volleyball = require("volleyball");
 require('dotenv').config();
 
 const database = new Datastore("database.db");
@@ -15,6 +16,7 @@ app.use(express.static("public"));
 app.use(express.json({
   limit: "1mb"
 }));
+app.use(volleyball);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
@@ -132,7 +134,7 @@ app.post("/api/create_user", (req, res) => {
   });
 });
 
-app.post("/api/login", (req, res) =>{
+app.post("/api/auth/login", (req, res) =>{
   console.log(req.body);
   usersDB.find({UserName: req.body.UserName}, (DBerror, docs) => {
     if (docs.length>=1&&req.body.Secret == docs[0].Secret){
