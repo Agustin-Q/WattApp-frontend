@@ -5,6 +5,7 @@ const Datastore = require("nedb");
 const jwt = require("jsonwebtoken");
 const volleyball = require("volleyball");
 require('dotenv').config();
+const auth = require("./routes/auth.js");
 
 const database = new Datastore("database.db");
 database.loadDatabase();
@@ -17,6 +18,7 @@ app.use(express.json({
   limit: "1mb"
 }));
 app.use(volleyball);
+app.use("/api/auth", auth);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
@@ -103,59 +105,3 @@ app.post("/api", (req, res) => {
 });
 
 //----user routes----
-
-app.post("/api/create_user", (req, res) => {
-  let date = new Date(Date.now()).toLocaleString();
-  console.log(date + ": Got a POST request on /api/create_user from " + req.hostname + " with body:");
-  console.log(req.body);
-  usersDB.find({
-    UserName: req.body.UserName
-  }, (DBerror, docs) => {
-    var error = 0;
-    if (req.body.UserName == null || req.body.Secret == null) error = "missing_field";
-    if (docs.length > 0) error = "user_unavailable";
-    if (!error) {
-      const doc = {
-        UserName: req.body.UserName,
-        Secret: req.body.Secret
-      };
-      //TODO: validate character set befor inserting to database
-      usersDB.insert(doc);
-      res.json({
-        status: "success"
-      });
-    } else {
-      res.status(400).json({
-        status: "failed",
-        message: errorMsg(error),
-        error_code: error
-      });
-    }
-  });
-});
-
-app.post("/api/auth/login", (req, res) =>{
-  console.log(req.body);
-  usersDB.find({UserName: req.body.UserName}, (DBerror, docs) => {
-    if (docs.length>=1&&req.body.Secret == docs[0].Secret){
-      //succes, respode with tocken
-      const token = jwt.sign({
-        UserName:docs[0].UserName,
-        userID: docs[0]._id},
-        process.env.JWT_KEY,
-        {expiresIn: "1h"});
-      res.json({status: "success", token: token});
-    } else {
-      res.status(401).json({status: "failed", message: "Auth failed"});
-    }
-  });
-});
-
-function errorMsg(errorCode) {
-  switch (errorCode) {
-    case "missing_field":
-      return "ERROR: Missing UserName or Secret";
-    case "user_unavailable":
-      return "ERROR: UserName is already in use. Please select other UserName";
-  }
-}
