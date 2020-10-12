@@ -25,7 +25,7 @@ function ready() {
       return;
     }
     clearInputs();
-    const url = "http://localhost:3000/api/create_user";
+    const url = "http://localhost:3000/api/auth/create_user";
     const postDataRes = await postData(url, {
       UserName: user,
       Secret: secret
