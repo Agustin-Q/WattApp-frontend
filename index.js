@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const volleyball = require("volleyball");
 require('dotenv').config();
 const auth = require("./routes/auth.js");
+const cors = require('cors');
 
 const database = new Datastore("database.db");
 database.loadDatabase();
@@ -18,6 +19,9 @@ app.use(express.json({
   limit: "1mb"
 }));
 app.use(volleyball);
+app.use(cors({
+  origin: '*'
+}))
 app.use("/api/auth", auth);
 
 app.listen(3000, () => {
