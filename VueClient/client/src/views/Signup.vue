@@ -133,9 +133,11 @@ export default {
           // aca se llega cuando parseamos el body en status.ok return resposne.json()
           console.log('aca se llega cuando esta ok, y parseamos el body');
           console.log(res);
-          // redirect to signin
+          // guardar el tocken devuelto en localStorage
+          localStorage.token = res.token;
+          // time out and log redirect to signin
           setTimeout(() => {
-            this.$router.push('/login');
+            this.$router.push('/dashboard');
           }, 2000);
         }).catch((err) => {
           // aca llega cuando hay un error en el fetch o tiramos un error nostoros
@@ -166,7 +168,7 @@ export default {
           this.loading = false;
         } else if (schemaResult.error.message.includes('username')) {
           // schema validation error in username
-          this.errorMessage = 'Username must be at least 2 characters long. ✌';
+          this.errorMessage = 'Username must be at least 2 characters long and no special characters. ✌';
           this.loading = false;
         }
         return false;
