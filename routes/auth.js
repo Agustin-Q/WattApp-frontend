@@ -13,6 +13,20 @@ const createUserSchema = Joi.object({
   Secret: Joi.string().trim().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
 });
 
+function  createTokenSendResponse (user, res) {
+  const token = jwt.sign({
+    UserName: user.UserName,
+    userID: user._id
+  },
+  process.env.JWT_KEY, {
+    expiresIn: "1h"
+  });
+  res.json({
+    status: "success",
+    token: token
+  });
+}
+
 // pre-pended with /api/auth
 
 router.post("/login", (req, res) => {
@@ -29,18 +43,8 @@ router.post("/login", (req, res) => {
     UserName: req.body.UserName
   }, (DBerror, docs) => {
     if (docs.length >= 1 && req.body.Secret == docs[0].Secret) {
-      //succes, respode with tocken
-      const token = jwt.sign({
-          UserName: docs[0].UserName,
-          userID: docs[0]._id
-        },
-        process.env.JWT_KEY, {
-          expiresIn: "1h"
-        });
-      res.json({
-        status: "success",
-        token: token
-      });
+      //succes, respond with token
+      createTokenSendResponse(docs[0], res);
     } else {
       res.status(401).json({
         status: "failed",
@@ -79,12 +83,17 @@ router.post("/create_user", (req, res) => {
           UserName: req.body.UserName,
           Secret: req.body.Secret
         };
-        usersDB.insert(doc);
-        console.log("User Created");
-        //return success response
-        res.json({
-          status: "success"
+        usersDB.insert(doc, (err, newUser) =>{
+          if (!err) {
+            console.log("User Created");
+            //return success response
+            createTokenSendResponse(newUser, res);
+          } else {
+            console.log('Database insertion error!');
+            console.log(err);
+          }
         });
+        
       } else {
         //user allready exists return an error
         res.status(400).json({
