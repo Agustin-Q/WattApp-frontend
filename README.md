@@ -2,7 +2,7 @@
 
 ***Dev***
 
- ##Sensor Logging API, Backend and Frontend
+ ## Sensor Logging API, Backend and Frontend
 
  This is a project made for learning backend development, frontend development and IoT (hardware and firmware for the Logging sensor is in a separate repository).
 
