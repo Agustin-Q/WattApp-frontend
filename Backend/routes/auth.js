@@ -29,6 +29,18 @@ function  createTokenSendResponse (user, res) {
 
 // pre-pended with /api/auth
 
+router.get("/login", (req, res) => {
+  console.log("la re concha de tu madre!!");
+  if (req.user){
+    res.json(req.user);
+  } else {
+    res.status(401).json({
+      status: "failed",
+      message: "Auth failed"
+    });
+  }
+});
+
 router.post("/login", (req, res) => {
   console.log(req.body);
   const schemaResult = createUserSchema.validate(req.body);
