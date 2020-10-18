@@ -2,16 +2,20 @@
 
 ***Prod***
 
- Sensor Logging API, Backend and Frontend
+ ## Sensor Logging API, Backend and Frontend
 
  This is a project made for learning backend development, frontend development and IoT (hardware and firmware for the Logging sensor is in a separate repository).
 
  Backend is built using Node.js and the following libraries:
  
- ▫ express (https://www.npmjs.com/package/express)
+ * express (https://www.npmjs.com/package/express)
 
- ▫ NeDB (https://www.npmjs.com/package/nedb)
+ * NeDB (https://www.npmjs.com/package/nedb)
 
- ▫ joi (https://www.npmjs.com/package/joi)
+ * joi (https://www.npmjs.com/package/joi)
 
- ▫ jsonwebtoken (https://www.npmjs.com/package/jsonwebtoken)
+* jsonwebtoken (https://www.npmjs.com/package/jsonwebtoken)
+
+Frontend is built using Vue.js and the following libraries:
+
+* bootstrap
