@@ -7,6 +7,7 @@ const volleyball = require("volleyball");
 require('dotenv').config();
 const auth = require("./routes/auth.js");
 const cors = require('cors');
+const middlewares = require('./middlewares/middlewares.js');
 
 const database = new Datastore("database.db");
 database.loadDatabase();
@@ -22,6 +23,7 @@ app.use(volleyball);
 app.use(cors({
   origin: '*'
 }))
+app.use(middlewares.checkTokenSetUser);
 app.use("/api/auth", auth);
 
 app.listen(3000, () => {
@@ -52,7 +54,7 @@ Solo limit trae la cantidad mas recientes de registros
 
 */
 
-app.get("/api",checkAuth, (req, res) => {
+app.get("/api", (req, res) => {
   console.log("got GET request.");
   console.log(req.query);
   let limitRecords = parseInt(req.query.limit);
@@ -63,11 +65,12 @@ app.get("/api",checkAuth, (req, res) => {
 
 console.log(fromTime);
   database.find({TimeStamp: { $gt: fromTime }}).sort({TimeStamp: -1}).limit(limitRecords).exec((error, data) => {
-    if (error != null) {
-      res.sendStatus(500);
+    if (error != null) {      
       console.log("Database Query Error:");
       console.log(error);
+      res.sendStatus(500);
     } else {
+      console.log('Ok, responding...');
       res.json(data.reverse()); //damos vuelta el array para que esetn ordenados del mas viejo al mas nuevo
     }
   });

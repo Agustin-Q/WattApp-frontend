@@ -6,7 +6,7 @@
     This is a simple sensor logging app! 📈🎉
     </p>
   <hr class="my-4">
-  <p>Created to lern web development! 🤓</p>
+  <p>Created to learn web development! 🤓</p>
   <p class="lead">
     <router-link
     class="btn btn-primary btn-lg"
