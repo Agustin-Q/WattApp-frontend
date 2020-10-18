@@ -1,6 +1,6 @@
 # ⚡WattApp⚡
 
-***Dev***
+***Prod***
 
  Sensor Logging API, Backend and Frontend
 
