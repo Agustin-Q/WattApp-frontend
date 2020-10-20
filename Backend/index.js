@@ -111,4 +111,20 @@ app.post("/api", (req, res) => {
   });
 });
 
-//----user routes----
+function notFound(req, res, next) {
+  console.log('Not Found =' + req.originalUrl);
+  res.status(404);
+  const error = new Error('Not Found =' + req.originalUrl);
+  next(error);
+}
+
+function errorHandeler(err, req, res, next) {
+  res.status(res.statusCode || 500);
+  res.json({
+    message: err.message,
+    stack: err.stack,
+  });
+}
+
+app.use(notFound);
+app.use(errorHandeler);
