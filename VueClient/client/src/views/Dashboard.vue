@@ -2,6 +2,8 @@
   <section>
     <h1>📊 Dashboard 📈</h1>
     <h2 v-if="user.UserName">🎉Welcome {{user.UserName}}!!🎉</h2>
+    <button v-on:click="logout()" type="submit" class="btn btn-primary">Log Out
+    </button>
   </section>
 </template>
 
@@ -25,10 +27,16 @@ export default {
       } else {
         console.log('Response does not have username, client sent invalid token');
         console.log('Clear token from localStorage and redirect to login');
-        localStorage.removeItem('token');
-        this.$router.push('/login');
+        this.logout();
       }
     });
+  },
+  methods: {
+    logout() {
+      console.log('clearToken');
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    },
   },
 };
 </script>
