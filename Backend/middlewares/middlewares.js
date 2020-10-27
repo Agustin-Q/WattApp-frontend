@@ -12,10 +12,11 @@ function checkTokenSetUser(req, res, next) {
         if (error){
           console.log('Token verification error!')
           // console.log(error);
+        } else {
+          req.user = user
+          console.log(req.user);
+          console.log('token verified!');
         }
-        req.user = user
-        console.log(req.user);
-        console.log('token verified! continue to next!')
         next();
       });
     } else {
@@ -30,6 +31,19 @@ function checkTokenSetUser(req, res, next) {
   }
 }
 
+function checkAuth(req, res, next) {
+  console.log('checkLoggedin');
+  if (req.user){
+    console.log('User loggedin!');
+    next();
+  } else {
+    console.log('User NOT loggedin!');
+    res.status(401);
+    throw new Error('Auth Failed')
+  }
+}
+
 module.exports = {
   checkTokenSetUser,
+  checkAuth,
 }

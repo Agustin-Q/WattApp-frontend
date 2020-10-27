@@ -9,17 +9,18 @@ const auth = require("./routes/auth.js");
 const cors = require('cors');
 const middlewares = require('./middlewares/middlewares.js');
 
+// Database set
 const database = new Datastore("database.db");
 database.loadDatabase();
 const usersDB = new Datastore("usersDB.db");
 usersDB.loadDatabase();
 
 const app = express();
+app.use(volleyball);
 app.use(express.static("public"));
 app.use(express.json({
   limit: "1mb"
 }));
-app.use(volleyball);
 app.use(cors({
   origin: '*'
 }))
@@ -31,6 +32,8 @@ app.listen(3000, () => {
   console.log(process.env.JWT_KEY);
 });
 
+
+/*
 const checkAuth = (req, res,next)=>{
   try {
     //console.log(req.headers.authorization);
@@ -45,6 +48,7 @@ const checkAuth = (req, res,next)=>{
     });
   }
 };
+*/
 
 
 /*-----------------
@@ -54,7 +58,7 @@ Solo limit trae la cantidad mas recientes de registros
 
 */
 
-app.get("/api", (req, res) => {
+app.get("/api", middlewares.checkAuth, (req, res) => {
   console.log("got GET request.");
   console.log(req.query);
   let limitRecords = parseInt(req.query.limit);
@@ -64,7 +68,11 @@ app.get("/api", (req, res) => {
   }
 
 console.log(fromTime);
-  database.find({TimeStamp: { $gt: fromTime }}).sort({TimeStamp: -1}).limit(limitRecords).exec((error, data) => {
+  database
+  .find({UserName: req.user.UserName, TimeStamp: { $gt: fromTime }})
+  .sort({TimeStamp: -1})
+  .limit(limitRecords)
+  .exec((error, data) => {
     if (error != null) {      
       console.log("Database Query Error:");
       console.log(error);
@@ -94,21 +102,51 @@ app.post("/api", (req, res) => {
   let date = new Date(Date.now()).toLocaleString();
   console.log(date + ": Got a POST request on /api from " + req.hostname + " with body:");
   console.log(req.body);
-  const timeStamp = Date.now();
-  const doc = {
-    UserName: req.body.UserName,
-    DeviceName: req.body.DeviceName,
-    Current: req.body.Current,
-    Voltage: req.body.Voltage,
-    Power: req.body.Power,
-    TimeStamp: req.body.TimeStamp,
-    ServerTimeStamp: timeStamp
-  };
-  database.insert(doc);
-
-  res.json({
-    status: "success"
+  usersDB.find({UserName: req.body.UserName}, (dbErr, docs) => {
+    if (docs.length && docs[0].SensorKey == req.body.SensorKey) {
+      const timeStamp = Date.now();
+      const doc = {
+        UserName: req.body.UserName,
+        DeviceName: req.body.DeviceName,
+        Current: req.body.Current,
+        Voltage: req.body.Voltage,
+        Power: req.body.Power,
+        TimeStamp: req.body.TimeStamp,
+        ServerTimeStamp: timeStamp
+      };
+      console.log('Inserting data to DB');
+      database.insert(doc);
+    
+      res.json({
+        status: "success"
+      });
+    } else {
+      console.log('Invalid Sensor Key or UserName');
+      res.status(401);
+      res.json({
+        message: 'Invalid Sensor Key or UserName'
+      });
+    }
   });
 });
 
-//----user routes----
+function notFound(req, res, next) {
+  console.log('Not Found =' + req.originalUrl);
+  res.status(404);
+  const error = new Error('Not Found =' + req.originalUrl);
+  next(error);
+}
+
+function errorHandeler(err, req, res, next) {
+  console.log('Error handeler');
+  console.log(res.statusCode);
+  console.log(err);
+  if(!res.statusCode) res.status(500);
+  res.json({
+    message: err.message,
+    // stack: err.stack,
+  });
+}
+
+app.use(notFound);
+app.use(errorHandeler);
