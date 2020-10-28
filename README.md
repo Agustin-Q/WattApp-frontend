@@ -1,21 +1,24 @@
-# ⚡WattApp⚡
+# client
 
-## Front-End
+## Project setup
+```
+npm install
+```
 
- ## Sensor Logging API, Backend and Frontend
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
- This is a project made for learning backend development, frontend development and IoT (hardware and firmware for the Logging sensor is in a separate repository).
+### Compiles and minifies for production
+```
+npm run build
+```
 
- Backend is built using Node.js and the following libraries:
- 
- * express (https://www.npmjs.com/package/express)
+### Lints and fixes files
+```
+npm run lint
+```
 
- * NeDB (https://www.npmjs.com/package/nedb)
-
- * joi (https://www.npmjs.com/package/joi)
-
-* jsonwebtoken (https://www.npmjs.com/package/jsonwebtoken)
-
-Frontend is built using Vue.js and the following libraries:
-
-* bootstrap
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
