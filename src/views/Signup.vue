@@ -60,7 +60,7 @@
 <script>
 import Joi from 'joi';
 
-const SIGNUP_URL = 'http://192.168.0.249:3000/api/auth/create_user';
+const SIGNUP_URL = 'https://wattapp-backend.herokuapp.com/api/auth/create_user';
 
 const createUserSchema = Joi.object({
   username: Joi
