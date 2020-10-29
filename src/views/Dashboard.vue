@@ -45,7 +45,6 @@ export default {
       }
     });
     this.getSensorKey();
-    this.generateSensorKey();
   },
   methods: {
     logout() {
