@@ -60,7 +60,7 @@
 <script>
 import Joi from 'joi';
 
-const SIGNUP_URL = `${process.env.BACKEND_URL}/api/auth/create_user`;
+const SIGNUP_URL = `${process.env.VUE_APP_BACKEND_URL}/api/auth/create_user`;
 
 const createUserSchema = Joi.object({
   username: Joi
