@@ -47,7 +47,7 @@
 <script>
 import Joi from 'joi';
 
-const LOGIN_URL = 'https://wattapp-backend.herokuapp.com/api/auth/login';
+const LOGIN_URL = `${process.env.VUE_APP_BACKEND_URL}/api/auth/login`;
 
 const createUserSchema = Joi.object({
   username: Joi
@@ -76,11 +76,13 @@ export default {
     login() {
       this.closeMessages();
       console.log('Login! ', this.user.username, ', pass: ', this.user.password);
+      console.log('Login URL: ', LOGIN_URL);
+      console.log('backend url env: ', process.env.VUE_APP_BACKEND_URL);
       if (this.validUser()) {
         console.log('valid user!');
         const body = {
           UserName: this.user.username,
-          Secret: this.user.password,
+          Password: this.user.password,
         };
         this.loading = true;
         fetch(LOGIN_URL, {

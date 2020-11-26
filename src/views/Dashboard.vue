@@ -20,8 +20,8 @@
 </template>
 
 <script>
-const API_LOGIN_URL = 'https://wattapp-backend.herokuapp.com/api/auth/login';
-const API_SENSOR_KEY_URL = 'https://wattapp-backend.herokuapp.com/api/auth/sensorKey';
+const API_LOGIN_URL = `${process.env.BACKEND_URL}/api/auth/login`;
+const API_SENSOR_KEY_URL = `${process.env.BACKEND_URL}/api/auth/sensorKey`;
 export default {
   data: () => ({
     user: {},

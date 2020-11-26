@@ -16,6 +16,8 @@ Frontend is built using Vue.js framework and the following libraries:
 
 --------------------------------------------------
 ## ToDo's 💪
+[ ] Add environment variables for dev and production
+  [ ] URL variable
 [ ] View data sensor page
   [ ] Create a sensor view vue.js component (?)
   [ ] Get sensor list from backend

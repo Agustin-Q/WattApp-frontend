@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
 import Dashboard from '../views/Dashboard.vue';
+import Devices from '../views/Devices.vue';
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,12 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    beforeEnter: isLoggedIn,
+  },
+  {
+    path: '/devices',
+    name: 'Devices',
+    component: Devices,
     beforeEnter: isLoggedIn,
   },
 
