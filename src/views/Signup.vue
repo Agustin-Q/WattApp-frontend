@@ -102,7 +102,7 @@ export default {
         console.log('user validated');
         const body = {
           UserName: this.user.username,
-          Secret: this.user.password,
+          Password: this.user.password,
         };
 
         fetch(SIGNUP_URL, {
