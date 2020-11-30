@@ -37,7 +37,7 @@ export default {
 .sensor{
   border-radius: 0.25rem;
   margin: 0.5rem;
-  background-color: #ffffff77;
+  background-color: #ffffff9c;
   text-align: center;
   padding: 0.5rem;
 }

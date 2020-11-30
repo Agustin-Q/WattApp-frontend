@@ -84,19 +84,4 @@ width: 8rem;
 text-align: center;
 }
 
-.sensor{
-  border-radius: 0.25rem;
-  margin: 0.5rem;
-  background-color: #ffffff77;
-  text-align: center;
-  padding: 0.5rem;
-}
-.sensor-info-card{
-  overflow:hidden;
-}
-.sensor-info-pane{
-  float: left;
-  width: 50%;
-  align-content: center;
-}
 </style>
