@@ -1,19 +1,21 @@
 <template>
   <section>
     <h1>📡 Devices 📡</h1>
-    <div style="text-align:center">
-      <test-component
+    <div style="">
+      <device
         v-for="device in devices"
-        v-bind:key="device"
+        v-bind:key="device.DeviceKey"
         v-bind:device="device"
-      ></test-component>
+      ></device>
+      <new-device v-on:newDevice="onNewDevice"></new-device>
     </div>
   </section>
 </template>
 
 <script>
 // -------------componets------------
-import testComponent from '../components/test-component.vue';
+import deviceComponent from '../components/device.vue';
+import newDeviceComponent from '../components/new-device.vue';
 
 // -------------componets------------
 // const API_LOGIN_URL = `${process.env.BACKEND_URL}/api/auth/login`;
@@ -40,10 +42,14 @@ export default {
     });
   },
   methods: {
+    onNewDevice(newDevice) {
+      this.devices.push(newDevice);
+    },
 
   },
   components: {
-    'test-component': testComponent,
+    device: deviceComponent,
+    'new-device': newDeviceComponent,
   },
 };
 </script>
