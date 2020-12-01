@@ -61,5 +61,5 @@ export default {
 <style >
 .button-wrapper {
 margin: 5px
-};
+}
 </style>
