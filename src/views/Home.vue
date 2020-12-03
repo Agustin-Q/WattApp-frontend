@@ -14,6 +14,11 @@
     :to="{name:'signup'}"
     role="button">Sign Up</router-link>
     <router-link
+    v-if="!isUserLoggedIn()"
+    class="btn btn-primary btn-lg"
+    :to="{name:'login'}"
+    role="button">Log In</router-link>
+    <router-link
     v-if="isUserLoggedIn()"
     class="btn btn-primary btn-lg"
     :to="{name:'Dashboard'}"
@@ -39,3 +44,9 @@ export default {
 };
 
 </script>
+
+<style >
+.lead .btn {
+  margin: 1rem;
+}
+</style>

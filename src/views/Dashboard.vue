@@ -24,37 +24,20 @@
 </template>
 
 <script>
-const API_LOGIN_URL = `${process.env.BACKEND_URL}/api/auth/login`;
+import myMixin from '../mixins/testMixin';
+
 export default {
   data: () => ({
     user: {},
     sensorKey: '',
   }),
   mounted() {
-    fetch(API_LOGIN_URL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`,
-      },
-    }).then((res) => res.json()).then((result) => {
-      if (result.UserName) {
-        console.log('Response has username, the client has sent valid token');
-        console.log(result);
-        this.user = result;
-      } else {
-        console.log('Response does not have username, client sent invalid token');
-        console.log('Clear token from localStorage and redirect to login');
-        this.logout();
-      }
-    });
+    this.checkValidToken();
   },
   methods: {
-    logout() {
-      console.log('clearToken');
-      localStorage.removeItem('token');
-      this.$router.push('/login');
-    },
+
   },
+  mixins: [myMixin],
 };
 </script>
 
