@@ -96,6 +96,7 @@ export default {
     signup() {
       console.log('submited!');
       console.log(this.user);
+      console.log('Backend URL: ', SIGNUP_URL);
       this.loading = true;
       if (this.validUser()) {
         // send data to server
