@@ -120,3 +120,4 @@ out
 #Databases
 *.db
 *.bak
+*.local
