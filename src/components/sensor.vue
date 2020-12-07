@@ -19,7 +19,7 @@
             width: fit-content;
             padding: 0 0.25rem 0 0.25rem;
           "
-          v-on:click="hacerAlgo()"
+          v-on:click="onClick()"
         >
           View Data<br />📈
         </button>
@@ -35,13 +35,11 @@ export default {
     sensor: Object,
   },
   methods: {
-    hacerAlgo() {
+    onClick() {
       console.log(this.sensor.SensorName);
       const params = {
-        sensor: this.sensor.SensorName,
-        email: 'john@example.com',
-        profession: 'Content Writer',
-        age: 29,
+        SensorName: this.sensor.SensorName,
+        fromTime: 0,
       };
       const qs = Object.keys(params)
         .map((key) => `${key}=${params[key]}`)
