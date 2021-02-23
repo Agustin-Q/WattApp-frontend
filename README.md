@@ -11,7 +11,6 @@
 
 Frontend is built using Vue.js framework and the following libraries:
 
-+ bootstrap
 + joi
 
 --------------------------------------------------
