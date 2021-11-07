@@ -5,6 +5,8 @@
 
  This is a project made for learning backend development, frontend development and IoT (backend, hardware and firmware for the Logging sensor is in a separate repository).
 
+ Deployed Frontend: https://wattapp-frontend.herokuapp.com
+
  Backend repo: https://github.com/Agustin-Q/WattApp-backend
  
  Arduino library repo:
